@@ -1,0 +1,18 @@
+pipeline{
+
+    agent any
+
+    stages{
+
+        stage('Build Docker image'){
+            steps{
+                sh 'docker build -t myapp:latest: .'
+            }
+        }
+        stage('show image'){
+            steps{
+                sh 'docker images'
+            }
+        }
+    }
+}

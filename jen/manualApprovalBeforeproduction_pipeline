@@ -1,0 +1,24 @@
+pipeline{
+    agent any
+
+    stages{
+
+        stage('Build'){
+            steps{
+                echo "Application build started"
+            }
+        }
+
+        stage('Approval'){
+            steps{
+                input message: 'Do you want to proceed to production?', ok: 'Yes, Proceed'
+            }
+        }
+
+        stage('Deploy'){
+            steps{
+                echo "deploying...."
+            }
+        }
+    }
+}

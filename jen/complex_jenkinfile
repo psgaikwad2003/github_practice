@@ -1,0 +1,53 @@
+pipeline{
+
+    agent any
+
+    tools{
+        jdk 'jdk17'
+        maven 'Maven3'
+    }
+
+    environment{
+        App_name = 'myapp'
+        version = '1.0'
+    }
+
+    options{
+        timeout(time: 1, unit: 'HOURS')
+        timestamps()
+    }
+    stages{
+
+    stage('checkout'){
+        steps{
+            echo "downloading source code from git"
+            checkout scm
+        }
+    }
+    stage('verify tools'){
+        steps{
+            sh 'java -version'
+            sh 'mvn -version'
+        }
+    }
+    stage('package'){
+        steps{
+            echo "packaging the application"
+            sh 'mvn clean package'
+        }
+    }
+    stage('publish artifact'){
+        steps{
+            echo "publishing the artifact to nexus"
+            sh 'echo publishing the artifact to nexus'
+        }
+    }
+
+    post{
+        always{
+            echo "cleaning up the workspace"
+            cleanWs()
+        }
+    }
+
+}

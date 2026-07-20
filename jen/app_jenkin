@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Install') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // Fixed the missing single quote here
+                sh 'npm test' 
+            }
+        }
+    } // Fixed the missing closing brace for stages
+
+    post {
+        always {
+            junit 'test-results.xml'
+        }
+    }
+}

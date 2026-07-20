@@ -1,0 +1,18 @@
+pipeline{
+
+    agent any
+
+    stages{
+        stage('Build'){
+            steps{
+                sh 'echo hello > output.txt'
+            }
+        }
+    }
+
+    post{
+        success{
+            archiveArtifacts artifacts: 'output.txt', fingerprint: true
+        }
+    }
+}

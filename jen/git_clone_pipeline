@@ -1,0 +1,17 @@
+pipeline{
+    agent any
+
+    stages{
+        stage('clone git repo'){
+            steps{
+                git branch: 'main', url: '
+            }
+        }
+
+        stage('list files'){
+            steps{
+                sh 'ls -l'
+            }
+        }
+    }
+}
