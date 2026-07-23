@@ -1,0 +1,40 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE = "username/myapp"
+    }
+
+    stages {
+
+        stage('Clone') {
+            steps {
+                git 'https://github.com/username/project.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t $IMAGE .'
+            }
+        }
+
+        stage('Push Image') {
+            steps {
+                sh 'docker push $IMAGE'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh 'kubectl apply -f deployment.yaml'
+            }
+        }
+    }
+}
